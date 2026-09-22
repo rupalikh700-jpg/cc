@@ -629,6 +629,10 @@ tr:hover td { background: rgba(255,255,255,.015); }
   .nav-links { display: none !important; }
   .hamburger { display: block; }
 
+  /* Disable CSS-hover dropdown on touch — JS handles open/close */
+  .user-pill:hover .user-dropdown { display: none; }
+  .user-dropdown.open { display: block !important; }
+
   .shop-layout { grid-template-columns: 1fr !important; }
   .shop-sidebar {
     position: fixed; top: 0; left: 0; bottom: 0;

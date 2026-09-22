@@ -48,8 +48,43 @@
   mobileOverlay && mobileOverlay.addEventListener('click', closeMenu);
 
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeMenu();
+    if (e.key === 'Escape') { closeMenu(); closeDropdown(); }
   });
+
+  // ── User dropdown (click/tap toggle on mobile) ──
+  var userPill    = document.querySelector('.user-pill');
+  var userDropdown = document.querySelector('.user-dropdown');
+
+  function closeDropdown() {
+    userDropdown && userDropdown.classList.remove('open');
+  }
+
+  if (userPill && userDropdown) {
+    userPill.addEventListener('click', function (e) {
+      if (window.innerWidth <= 900) {
+        if (!userDropdown.contains(e.target)) {
+          var isOpen = userDropdown.classList.toggle('open');
+          e.stopPropagation();
+          // Prevent body-scroll when dropdown is open
+          document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+      }
+    });
+    // Close on any outside tap
+    document.addEventListener('click', function () {
+      if (window.innerWidth <= 900 && userDropdown.classList.contains('open')) {
+        closeDropdown();
+        document.body.style.overflow = '';
+      }
+    });
+    // Close after navigating from a dropdown link
+    userDropdown.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeDropdown();
+        document.body.style.overflow = '';
+      });
+    });
+  }
 
   // ── Shop sidebar toggle (mobile) ─────────────
   var filterBtn     = document.getElementById('filterToggleBtn');
